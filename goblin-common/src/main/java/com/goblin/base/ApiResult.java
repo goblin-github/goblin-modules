@@ -2,6 +2,8 @@ package com.goblin.base;
 
 import com.goblin.enums.ResultCodeEnum;
 
+import java.io.Serializable;
+
 /**
  * 封装接口返回值
  *
@@ -9,7 +11,9 @@ import com.goblin.enums.ResultCodeEnum;
  * @version v1.0
  * @since 2022/11/17
  */
-public class ApiResult<T> {
+public class ApiResult<T> implements Serializable {
+
+    private static final long serialVersionUID = 4090527818627705529L;
     /**
      * 错误码
      */
@@ -135,6 +139,22 @@ public class ApiResult<T> {
     private ApiResult(Integer code, String msg, T data) {
         this.code = code;
         this.msg = msg;
+        this.data = data;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
         this.data = data;
     }
 }

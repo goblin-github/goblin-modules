@@ -1,5 +1,6 @@
 package com.goblin;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2022/11/18
  */
 @SpringBootApplication
+@MapperScan("com.goblin.dao.mapper")
 public class GoblinWebApplication {
 
     public static void main(String[] args) {
