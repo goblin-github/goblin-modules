@@ -1,0 +1,6 @@
+server:
+  port: 8083
+
+logback:
+  path: /data/logs/${spring.application.name}
+  sensitive: true
