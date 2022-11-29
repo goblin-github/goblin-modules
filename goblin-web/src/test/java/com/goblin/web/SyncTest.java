@@ -1,6 +1,7 @@
 package com.goblin.web;
 
 import com.goblin.utils.GsonUtils;
+import com.goblin.utils.Log;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,5 +44,10 @@ public class SyncTest {
 
     public List<Integer> getList(int i) {
         return Lists.newArrayList(i, 2, 3, 4, 5, 6, 7);
+    }
+
+    @Test
+    public void log() {
+        Log.topic("指派").log("param", getList(4)).log("result", "33").info();
     }
 }
