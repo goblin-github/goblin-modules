@@ -25,7 +25,7 @@ public class SyncTest {
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Test
-    public void syncTest() throws ExecutionException, InterruptedException {
+    public void FutureTest() throws ExecutionException, InterruptedException {
         List<Integer> arrayList = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7);
         List<Future<List<Integer>>> futureList = arrayList.stream().map(i -> taskExecutor.submit(() -> getList(i))).collect(Collectors.toList());
         for (Future<List<Integer>> future : futureList) {
@@ -36,18 +36,26 @@ public class SyncTest {
     }
 
     @Test
-    public void syncName() {
-        for (int i = 0; i < 10; i++) {
-            taskExecutor.execute(() -> System.out.println(Thread.currentThread().getName()));
-        }
+    public void syncException() throws ExecutionException, InterruptedException {
+        Future<?> submit = taskExecutor.submit(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("进入了task方法！！！");
+                int i = 1 / 0;
+            }
+        });
+        submit.get();
+
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("进入了task方法！！！");
+                int i = 1 / 0;
+            }
+        });
     }
 
-    public List<Integer> getList(int i) {
+    private List<Integer> getList(int i) {
         return Lists.newArrayList(i, 2, 3, 4, 5, 6, 7);
-    }
-
-    @Test
-    public void log() {
-        Log.topic("指派").log("param", getList(4)).log("result", "33").info();
     }
 }

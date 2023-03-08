@@ -31,21 +31,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BusinessException.class)
     public ApiResult<String> businessHandle(BusinessException e) {
-        logger.error("业务异常！errorMessage:{},errorStackTrace:{}", ExceptionUtils.getMessage(e), ExceptionUtils.getStackTrace(e));
+        logger.error("业务异常！errorMessage:{}", ExceptionUtils.getMessage(e), e);
         return ApiResult.error(e);
     }
 
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     public ApiResult<String> exceptionHandle(Exception e) {
-        logger.error("未知异常！errorMessage:{},errorStackTrace:{}", ExceptionUtils.getMessage(e), ExceptionUtils.getStackTrace(e));
+        logger.error("未知异常！errorMessage:{}", ExceptionUtils.getMessage(e), e);
         return ApiResult.build(ResultCodeEnum.ERROR);
     }
 
     @ExceptionHandler(value = {BindException.class, ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResult<String> validException(Exception e) {
-        logger.error("参数校验异常！errorMessage:{},errorStackTrace:{}", ExceptionUtils.getMessage(e), ExceptionUtils.getStackTrace(e));
+        logger.error("参数校验异常！errorMessage:{}", ExceptionUtils.getMessage(e), e);
         if (e instanceof ConstraintViolationException) {
             ConstraintViolationException ex = (ConstraintViolationException) e;
             String message = ex.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining());
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResult<String> missException(MissingServletRequestParameterException exception) {
-        logger.error("missException！errorMessage:{},errorStackTrace:{}", ExceptionUtils.getMessage(exception), ExceptionUtils.getStackTrace(exception));
+        logger.error("missException！errorMessage:{}", ExceptionUtils.getMessage(exception), exception);
         return ApiResult.build(ResultCodeEnum.PARAM_ERROR);
     }
 

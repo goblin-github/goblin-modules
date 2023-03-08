@@ -17,5 +17,23 @@ spring:
       max-lifetime: 540000
       connection-timeout: 60000
       connection-test-query: SELECT 1
+  #单机配置
+  redis:
+    host: 49.234.4.211
+    port: 6379
+    #    password: 123456
+    database: 0
+    #redis连接池配置
+    lettuce:
+      pool:
+        max-idle: 16
+        max-active: 32
+        min-idle: 8
+  #集群配置
+#  redis:
+#    password: 123456
+#    cluster:
+#      nodes: 10.255.144.115:7001,10.255.144.115:7002,10.255.144.115:7003,10.255.144.115:7004,10.255.144.115:7005,10.255.144.115:7006
+#      max-redirects: 3
 
 

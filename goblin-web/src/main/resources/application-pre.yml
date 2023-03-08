@@ -2,5 +2,10 @@ server:
   port: 8082
 
 logback:
-  path: /data/logs/${spring.application.name}
+  path: data/logs/${spring.application.name}
   sensitive: true
+#mybatis-plus相关配置
+mybatis-plus:
+  configuration:
+    #开启SQL语句打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

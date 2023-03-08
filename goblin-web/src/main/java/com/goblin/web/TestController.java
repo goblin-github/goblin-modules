@@ -1,7 +1,6 @@
 package com.goblin.web;
 
 import com.goblin.annotations.LogMonitor;
-import com.goblin.base.ApiResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

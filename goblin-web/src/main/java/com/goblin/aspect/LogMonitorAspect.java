@@ -10,11 +10,13 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * 日志切面
@@ -26,6 +28,7 @@ import java.util.Objects;
 @Aspect
 @Component
 public class LogMonitorAspect {
+    private static final String KEY = "requestId";
 
     private static final Logger logger = LoggerFactory.getLogger(LogMonitorAspect.class);
 
@@ -40,6 +43,7 @@ public class LogMonitorAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         LogMonitor logMonitor = getLogMonitor(joinPoint, signature);
         String methodDesc = getMethodDesc(logMonitor, joinPoint, signature);
+        MDC.put(KEY, UUID.randomUUID().toString());
         logger.info("methodDesc:{},params:{}", methodDesc, getMethodParams(signature));
         Object result = joinPoint.proceed();
         stopWatch.stop();

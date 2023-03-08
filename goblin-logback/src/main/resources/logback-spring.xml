@@ -13,7 +13,7 @@ debug：是否打印 logback 内部的运行日志，默认值为 false，一般
     <property name="MAX_FILE_SIZE" value="50MB"/>
     <!--定义输出格式-->
     <property name="PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %thread %class{35}.%method:%line - %replace(%.-4096msg){'[\r\n]',''}%n"/>
+              value="[requestId:%X{requestId}] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %thread %class{35}.%method:%line - %replace(%.-4096msg){'[\r\n]',''}%n"/>
     <!--定义日志输出路径，从配合文件中读取-->
     <springProperty scope="context" name="LOG_PATH" source="logback.path" defaultValue="data/logs"/>
     <springProperty scope="system" name="LOG_SENSITIVE" source="logback.sensitive" defaultValue="false"/>
