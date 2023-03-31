@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022/11/17
  */
 @RestController
-@LogMonitor
+@LogMonitor()
 public class TestController {
 
     @GetMapping("/ok")

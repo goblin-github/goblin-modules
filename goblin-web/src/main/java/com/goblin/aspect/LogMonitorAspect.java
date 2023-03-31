@@ -2,6 +2,8 @@ package com.goblin.aspect;
 
 import com.goblin.annotations.LogMonitor;
 import com.goblin.utils.GsonUtils;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -44,7 +47,7 @@ public class LogMonitorAspect {
         LogMonitor logMonitor = getLogMonitor(joinPoint, signature);
         String methodDesc = getMethodDesc(logMonitor, joinPoint, signature);
         MDC.put(KEY, UUID.randomUUID().toString());
-        logger.info("methodDesc:{},params:{}", methodDesc, getMethodParams(signature));
+        logger.info("methodDesc:{},params:{}", methodDesc, getMethodParams(signature, joinPoint));
         Object result = joinPoint.proceed();
         stopWatch.stop();
         if (logMonitor.printResult()) {
@@ -74,9 +77,17 @@ public class LogMonitorAspect {
         return StringUtils.isNotBlank(methodLogMonitor.methodDesc()) ? methodLogMonitor.methodDesc() : joinPoint.getTarget().getClass().getName().concat(":").concat(signature.getName());
     }
 
-    private String getMethodParams(MethodSignature signature) {
-        Method method = signature.getMethod();
-        return GsonUtils.toJson(method.getParameters());
+    private String getMethodParams(MethodSignature signature, ProceedingJoinPoint joinPoint) {
+        Map<String, Object> parameters = Maps.newHashMap();
+        Object[] args = joinPoint.getArgs();
+        if (ArrayUtils.isEmpty(args)) {
+            return GsonUtils.toJson(parameters);
+        }
+        String[] parameterNames = signature.getParameterNames();
+        for (int i = 0; i < parameterNames.length; i++) {
+            parameters.put(parameterNames[i], args[i]);
+        }
+        return GsonUtils.toJson(parameters);
     }
 
 }
