@@ -1,6 +1,7 @@
 package com.goblin.web;
 
 import com.goblin.base.ApiResult;
+import com.goblin.dao.moudle.UserInfo;
 import com.goblin.entity.UserInfoReq;
 import com.goblin.manage.UserInfoManage;
 import org.springframework.validation.annotation.Validated;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @author wangpeng
@@ -29,8 +31,9 @@ public class UserInfoController {
     }
 
     @GetMapping
-    public ApiResult<String> info() {
-        return ApiResult.success("ok");
+    public ApiResult<List<UserInfo>> info() {
+        List<UserInfo> list = userInfoManage.list();
+        return ApiResult.success(list);
     }
 
     @GetMapping("{name}")

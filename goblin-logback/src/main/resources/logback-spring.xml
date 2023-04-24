@@ -215,7 +215,7 @@ debug：是否打印 logback 内部的运行日志，默认值为 false，一般
     <!-- 多环境配置 -->
     <springProfile name="dev">
         <!-- root -->
-        <root level="DEBUG">
+        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
