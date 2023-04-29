@@ -17,13 +17,13 @@ import java.util.Map;
  * @version v1.1
  * @since 2023/4/25
  */
-public class GsonUtils {
+public final class GsonUtils {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-    private static final Gson gson;
+    private static final Gson GSON;
 
     static {
-        gson = new GsonBuilder()
+        GSON = new GsonBuilder()
                 .disableHtmlEscaping()
                 .setDateFormat(DATE_FORMAT)
                 .setLongSerializationPolicy(LongSerializationPolicy.DEFAULT)
@@ -37,14 +37,14 @@ public class GsonUtils {
      * @return json 字符串
      */
     public static String toJson(Object obj) {
-        return gson.toJson(obj);
+        return GSON.toJson(obj);
     }
 
     /**
      * 将对象转为json字符串，支持泛型对象
      */
     public static <T> String toJson(T object, Type type) {
-        return gson.toJson(object, type);
+        return GSON.toJson(object, type);
     }
 
     /**
@@ -56,36 +56,35 @@ public class GsonUtils {
      * @return 对象
      */
     public static <T> T fromJson(String json, Class<T> type) throws JsonSyntaxException {
-        return gson.fromJson(json, type);
+        return GSON.fromJson(json, type);
     }
 
     /**
      * 将json字符串转为泛型对象
      */
     public static <T> T fromJson(String json, Type type) throws JsonSyntaxException {
-        return gson.fromJson(json, type);
+        return GSON.fromJson(json, type);
     }
 
     /**
      * 将json字符串转为对象列表
      */
     public static <T> List<T> fromJsonList(String json, TypeToken<List<T>> typeToken) throws JsonSyntaxException {
-        return gson.fromJson(json, typeToken.getType());
+        return GSON.fromJson(json, typeToken.getType());
     }
 
     /**
      * 将json字符串转为Map对象
      */
     public static <K, V> Map<K, V> fromJsonMap(String json, TypeToken<Map<K, V>> typeToken) throws JsonSyntaxException {
-        return gson.fromJson(json, typeToken.getType());
+        return GSON.fromJson(json, typeToken.getType());
     }
 
     /**
      * 将对象转为Map对象
      */
-    public static <K, V> Map<K, V> toMap(Object object) {
-        Type type = new TypeToken<Map<K, V>>() {
-        }.getType();
-        return gson.fromJson(toJson(object), type);
+    public static <K, V> Map<K, V> toMap(Object object, TypeToken<Map<K, V>> typeToken) {
+        Type type = typeToken.getType();
+        return GSON.fromJson(toJson(object), type);
     }
 }
